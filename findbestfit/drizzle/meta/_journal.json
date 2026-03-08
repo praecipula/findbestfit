@@ -8,6 +8,13 @@
       "when": 1772664996134,
       "tag": "0000_overjoyed_lethal_legion",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1772822052826,
+      "tag": "0001_spooky_tag",
+      "breakpoints": true
     }
   ]
 }
