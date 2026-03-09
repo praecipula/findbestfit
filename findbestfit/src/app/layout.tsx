@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { createAuth } from "./auth";
 import "./globals.css";
 import { SessionActiveOrLoginOrSignup } from "@/components/client-auth";
 
@@ -30,7 +29,7 @@ export default function RootLayout({
 			<head>
 				<link rel="icon" href="/favicon.svg" type="image/svg+xml"></link>
 			</head>
-			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+			<body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col flex-wrap items-center justify-center`}>
 				<SessionActiveOrLoginOrSignup />
 				{children}
 			</body>

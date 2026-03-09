@@ -1,13 +1,12 @@
 import Image from "next/image";
 import { user } from "../db/schema/auth-schema";
 import getDb from "../db/db";
-import GoogleFullLogin from "@/components/google-full-login";
 
 
 export default async function Home() {
 
 	async function getUsers() {
-		const db = getDb()
+		const db = await getDb()
 		const result = await db.select().from(user).all()
 		return result;
 	}
@@ -32,7 +31,6 @@ export default async function Home() {
 			<div>
 				{JSON.stringify(users)}
 			</div>
-			<GoogleFullLogin />
 		</div>
 	);
 }

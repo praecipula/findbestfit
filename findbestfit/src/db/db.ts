@@ -7,7 +7,11 @@ export interface Env {
   prod_findbestfit: D1Database;
 }
 
-export default function getDb() {
-  const { env } = getCloudflareContext() as unknown as { env: Env };
-  return drizzle(env.prod_findbestfit, { schema: { ...auth_schema, ...schema } });
+export default async function getDb() {
+  const { env } = await getCloudflareContext({async: true}) as unknown as { env: Env };
+  console.log(env)
+  return drizzle(env.prod_findbestfit, 
+    { 
+        schema: { ...auth_schema, ...schema } 
+    });
 }

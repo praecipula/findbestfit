@@ -22,8 +22,7 @@ export function SessionActiveOrLoginOrSignup() {
     }
 
     return (
-        <div>
-            <h1>Session Active or Login/Signup</h1>
+        <div className="ml-auto">
             <div>{isPending 
                 ? <p>Checking login...</p>
                 : ses
