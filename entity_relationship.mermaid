@@ -1,0 +1,39 @@
+https://mermaid.ai/live/edit
+
+erDiagram
+    SCENARIO ||--o{ VOTE_SESSION : instantiates
+    SCENARIO ||--o{CANDIDATE: contains
+    CANDIDATE ||--o{ VOTE : winner
+    CANDIDATE ||--o{ VOTE : loser
+    VOTE_SESSION ||--o{ VOTE: contains
+    VOTE }o--|| USER: has
+    SCENARIO {
+        int id
+        string name
+        varchar description
+        datetime created
+        datetime modified
+    }
+    VOTE_SESSION {
+        string id
+        date orderDate
+        string status
+        datetime created
+    }
+    USER {
+        string id
+        string name
+        string email
+        datetime created
+        datetime modified
+        TODO roles
+    }
+    CANDIDATE {
+        int id
+        string name
+        string description
+    }
+    VOTE {
+        int id
+        datetime created
+    }

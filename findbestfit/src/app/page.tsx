@@ -1,6 +1,7 @@
-import Image from "next/image";
 import { user } from "../db/schema/auth-schema";
 import getDb from "../db/db";
+import { loggedIn } from "@/app/auth";
+import Link from "next/link";
 
 
 export default async function Home() {
@@ -14,22 +15,16 @@ export default async function Home() {
 	const users = await getUsers();
 
 	return (
-		<div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
+		<div className="font-sans grid grid-rows-6 items-center justify-items-center min-h-screen p-8 pb-20 gap-4">
 			<main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-				<Image className="dark:invert" src="/next.svg" alt="Next.js logo" width={180} height={38} priority />
-				<ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-					<li className="mb-2 tracking-[-.01em]">
-						Get started by editing{" "}
-						<code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-							src/app/page.tsx
-						</code>
-						.
-					</li>
-					<li className="tracking-[-.01em]">Save and see your changes instantly.</li>
-				</ol>
+				FindBestFit: choose, as a team, simply.
 			</main>
 			<div>
-				{JSON.stringify(users)}
+				{
+					await loggedIn()
+					? <p>Create a new scenario</p> 
+					: <Link href="/login" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Log in to create a scenario</Link>
+				}
 			</div>
 		</div>
 	);

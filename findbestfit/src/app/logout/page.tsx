@@ -1,6 +1,6 @@
 'use client';
 
-import { authClient } from "@/components/client-auth";
+import { authClient } from "@/components/ClientAuth";
 import { useRouter } from "next/navigation";
 
 

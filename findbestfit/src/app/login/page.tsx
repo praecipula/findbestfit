@@ -1,4 +1,4 @@
-import GoogleFullLogin from "@/components/google-full-login";
+import GoogleFullLogin from "@/components/GoogleFullLogin";
 
 export default async function Login() {
     return (

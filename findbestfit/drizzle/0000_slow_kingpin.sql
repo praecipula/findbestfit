@@ -50,4 +50,18 @@ CREATE TABLE `verification` (
 	`updated_at` integer DEFAULT (cast(unixepoch('subsecond') * 1000 as integer)) NOT NULL
 );
 --> statement-breakpoint
-CREATE INDEX `verification_identifier_idx` ON `verification` (`identifier`);
+CREATE INDEX `verification_identifier_idx` ON `verification` (`identifier`);--> statement-breakpoint
+CREATE TABLE `scenarios` (
+	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+	`name` text NOT NULL,
+	`description` text,
+	`createdAt` integer DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
+	`modifiedAt` integer DEFAULT (CURRENT_TIMESTAMP) NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE `voting_sessions` (
+	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+	`scenarioId` integer NOT NULL,
+	`createdAt` integer DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
+	`finalizedAt` integer
+);
