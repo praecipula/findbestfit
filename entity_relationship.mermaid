@@ -3,10 +3,16 @@ https://mermaid.ai/live/edit
 erDiagram
     SCENARIO ||--o{ VOTE_SESSION : instantiates
     SCENARIO ||--o{CANDIDATE: contains
+    SCENARIO ||--|| AC_PARTICIPANT_SET: editors
+    SCENARIO ||--|| AC_PARTICIPANT_SET: viewers
     CANDIDATE ||--o{ VOTE : winner
     CANDIDATE ||--o{ VOTE : loser
+    VOTE_SESSION ||--|| USER: owner
     VOTE_SESSION ||--o{ VOTE: contains
+    VOTE_SESSION ||--|| AC_PARTICIPANT_SET: voters
     VOTE }o--|| USER: has
+    %% Scenario is the starting point and at first will always be public (no AC_PARTICIPANT_SET checking).
+    %% Later, the logic will query if AC_PARTICIPANT_SET exists, and if so, this is private.
     SCENARIO {
         int id
         string name
@@ -14,11 +20,22 @@ erDiagram
         datetime created
         datetime modified
     }
+    %% access control - a user connected to a Scenario or a VoteSession, etc based on entity_type.
+    AC_PARTICIPANT_SET {
+        int id
+        int user_id
+        int entity_id
+        string entity_type
+    }
+    %% A vote_session is cloned from a Scenario prototype-style, so gets a clone of candidates to scenario=>vote_session
+    %% Users need to be invited to a vote_session in app (creating an AC_PARTICIPANT_SET) and needs no acknowledgement.
+    %% Deleting a user from the participant set will remove this set and all their votes.
+    %% A vote_session *MUST* have a participant set, otherwise we don't have a natural stop for "all votes are in"
     VOTE_SESSION {
-        string id
-        date orderDate
-        string status
+        int id
+        int scenario_id
         datetime created
+        datetime finalized
     }
     USER {
         string id
@@ -26,14 +43,24 @@ erDiagram
         string email
         datetime created
         datetime modified
-        TODO roles
     }
+    %% Candidates are members of both scenarios and vote_sessions. trashable, but do not get deleted, as they are needed for historical vote_session records.
+    %% They are currently ediable, but it would be nice to auto lock after a certain time, or lock except to creator?
     CANDIDATE {
         int id
         string name
         string description
+        bool trashed
     }
+    %% At first, votes can be either for or against. For now, only the for votes really mean anything algo wise but this might change.
+    %% The vote_type will be a one-hot flag defined in code. 1 => yea, 2 => nay, 4 => somethingelse
+    %% weight can be used
     VOTE {
         int id
+        int session_id
+        int candidate_id
+        int user_id
+        int vote_type
+        int weight
         datetime created
     }

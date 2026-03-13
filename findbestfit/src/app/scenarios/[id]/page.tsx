@@ -1,6 +1,7 @@
 import getDb from "@/db/db"
 import { eq } from "drizzle-orm"
 import { scenarios } from "@/db/schema/scenario"
+import { notFound } from "next/navigation"
 
 const db = await getDb();
 
@@ -14,8 +15,11 @@ export default async function Scenario({params}: ScenarioProps) {
     const id = Number(p.id)
 
     const getData = async () => {
-        //TODO: select one?
         const matchingRecord = await db.select().from(scenarios).where(eq(scenarios.id, id)).limit(1);
+        if (matchingRecord.length != 1)
+        {
+            notFound();
+        }
         return matchingRecord.at(0)
     }
 
